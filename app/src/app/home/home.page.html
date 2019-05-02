@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-title>
+      CloneWorld
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-split-pane contentId="menu-content">
+    <!--  our side menu  -->
+    <ion-menu side="end" contentId="menu-content">
+      control
+    </ion-menu>
+
+    <!-- the main content -->
+    <ion-content id="menu-content" color="light">
+      <ion-row class="vis-view">
+        <ion-col size="6">
+          <ion-card>
+            vis1
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card>
+            vis2
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card>
+            vis3
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card>
+            vis4
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row class="code-view">
+        <ion-col>
+          <ion-card>
+            code1
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card>
+            code2
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card>
+            code3
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ion-split-pane>
+</ion-content>
