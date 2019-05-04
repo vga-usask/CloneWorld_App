@@ -8,11 +8,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HomePageModule } from './home/home.module';
+
+import { NgxElectronModule } from 'ngx-electron';
+import { NgxChildProcessModule } from 'ngx-childprocess';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HomePageModule, NgxElectronModule, NgxChildProcessModule],
   providers: [
     StatusBar,
     SplashScreen,
