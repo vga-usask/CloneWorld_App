@@ -56,10 +56,21 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     this.obtainDatasetInfo();
     var chartData = this.generateChartData();
 
-    setTimeout(() => this.updateChart(chartData, 515, 575), 1000);
+    var removeUnchangedRevisionsFilter = (revisionId:number)=>{
+      for (const file of Object.values(this.cloneDictionary[revisionId])) {
+        for (const clone of Object.values(file)) {
+          if (clone.change_count > 0){
+            return true;
+          } 
+        }
+      }
+      return false;
+    }
+
+    setTimeout(() => this.updateChart(chartData, this.datasetInfo.minRevision, this.datasetInfo.maxRevision, removeUnchangedRevisionsFilter), 1000);
 
     window.onresize = () => {
-      this.updateChart(chartData, 515, 575);
+      this.updateChart(chartData, this.datasetInfo.minRevision, this.datasetInfo.maxRevision, removeUnchangedRevisionsFilter);
     };
   }
 
@@ -99,26 +110,28 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       .alpha(.3);
   }
 
-  private generateDimensions(pc, minRevision: number, maxRevision: number) {
+  private generateDimensions(pc, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
     var dimensions = {};
     var range = pc.height() - pc.margin().top - pc.margin().bottom;
     var max = d3.max(Object.values(this.globalIdDictionary), d => d3.max(Object.values(d), dd => dd.change_count));
     var scale = d3.scaleLinear().domain([0, max]).range([range, 1]);
 
     for (var i = minRevision; i < maxRevision; i++) {
-      dimensions[i] = {
-        type: "number",
-        yscale: scale,
-        ticks: i > minRevision ? 0 : undefined
+      if (filter(i)) {
+        dimensions[i] = {
+          type: "number",
+          yscale: scale,
+          ticks: i > minRevision ? 0 : undefined
+        }
       }
     }
 
     return dimensions;
   }
 
-  private updateChart(data, minRevision: number, maxRevision: number) {
+  private updateChart(data, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
     var pc = this.initializeParcoords();
-    var dimensions = this.generateDimensions(pc, minRevision, maxRevision);
+    var dimensions = this.generateDimensions(pc, minRevision, maxRevision, filter);
     pc
       .data(data)
       .dimensions(dimensions)
