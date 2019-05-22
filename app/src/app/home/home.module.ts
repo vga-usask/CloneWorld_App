@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { OpenViewComponent } from './open-view/open-view.component';
+import { ParallelCoordinatesViewComponent } from './parallel-coordinates-view/parallel-coordinates-view.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { OpenViewComponent } from './open-view/open-view.component';
       }
     ])
   ],
-  declarations: [HomePage, OpenViewComponent],
+  declarations: [HomePage, OpenViewComponent, ParallelCoordinatesViewComponent],
   entryComponents: [OpenViewComponent]
 })
 export class HomePageModule {}
