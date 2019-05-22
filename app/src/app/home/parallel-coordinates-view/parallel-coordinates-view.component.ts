@@ -56,12 +56,12 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     this.obtainDatasetInfo();
     var chartData = this.generateChartData();
 
-    var removeUnchangedRevisionsFilter = (revisionId:number)=>{
+    var removeUnchangedRevisionsFilter = (revisionId: number) => {
       for (const file of Object.values(this.cloneDictionary[revisionId])) {
         for (const clone of Object.values(file)) {
-          if (clone.change_count > 0){
+          if (clone.change_count > 0) {
             return true;
-          } 
+          }
         }
       }
       return false;
@@ -121,10 +121,11 @@ export class ParallelCoordinatesViewComponent implements OnInit {
         dimensions[i] = {
           type: "number",
           yscale: scale,
-          ticks: i > minRevision ? 0 : undefined
+          ticks: 0
         }
       }
     }
+    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))] = undefined;
 
     return dimensions;
   }
