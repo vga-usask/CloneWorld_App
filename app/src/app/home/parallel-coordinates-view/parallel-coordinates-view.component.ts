@@ -50,8 +50,8 @@ export class ParallelCoordinatesViewComponent implements OnInit {
 
   async ngOnInit() {
     // TODO those files are not syncing with Git
-    this.cloneDictionary = await d3.json("assets/clone_map.json") as any;
-    this.globalIdDictionary = await d3.json("assets/global_id_map.json") as any;
+    this.cloneDictionary = await d3.json('assets/clone_map.json') as any;
+    this.globalIdDictionary = await d3.json('assets/global_id_map.json') as any;
 
     this.obtainDatasetInfo();
     var chartData = this.generateChartData();
@@ -107,7 +107,8 @@ export class ParallelCoordinatesViewComponent implements OnInit {
         bottom: 20
       })
       .mode('queue')
-      .alpha(.3);
+      .alpha(.3)
+      .alphaOnBrushed(.35);
   }
 
   private generateDimensions(pc, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
@@ -119,7 +120,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     for (var i = minRevision; i < maxRevision; i++) {
       if (filter(i)) {
         dimensions[i] = {
-          type: "number",
+          type: 'number',
           yscale: scale,
           ticks: 0
         }
