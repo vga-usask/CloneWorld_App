@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { ChildProcessService } from 'ngx-childprocess';
+import { FsService } from 'ngx-fs';
 
 @Component({
   selector: 'app-open-view',
@@ -9,7 +10,7 @@ import { ChildProcessService } from 'ngx-childprocess';
 })
 export class OpenViewComponent implements OnInit {
 
-  constructor(private electronService: ElectronService, private childProcessService: ChildProcessService) { }
+  constructor(private electronService: ElectronService, private childProcessService: ChildProcessService, private fsService: FsService) { }
 
   ngOnInit() { }
 
@@ -17,6 +18,12 @@ export class OpenViewComponent implements OnInit {
     var appPath = this.electronService.remote.app.getAppPath().replace(/\\/g, "/");
     var command = "git clone " + gitLink;
     var cwd = appPath + "/repos";
+
+    // the fs service does not implement types
+    var fs = this.fsService.fs as any;
+    if (!fs.existsSync(cwd)) {
+      fs.mkdirSync(cwd);
+    }
 
     this.childProcessService.childProcess.exec(
       command,

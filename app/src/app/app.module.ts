@@ -12,11 +12,12 @@ import { HomePageModule } from './home/home.module';
 
 import { NgxElectronModule } from 'ngx-electron';
 import { NgxChildProcessModule } from 'ngx-childprocess';
+import { NgxFsModule } from 'ngx-fs';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HomePageModule, NgxElectronModule, NgxChildProcessModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HomePageModule, NgxElectronModule, NgxChildProcessModule, NgxFsModule],
   providers: [
     StatusBar,
     SplashScreen,
@@ -24,4 +25,4 @@ import { NgxChildProcessModule } from 'ngx-childprocess';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
