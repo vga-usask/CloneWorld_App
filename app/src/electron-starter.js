@@ -18,13 +18,16 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
+        frame: false,
+        minWidth: 320,
+        minHeight: 240,
         width: 1200,
         height: 700,
         webPreferences: {
             nodeIntegration: true
         }
     });
-    mainWindow.setMenu(null);
+    // mainWindow.setMenu(null);
 
 
     // and load the index.html of the app.
@@ -35,7 +38,7 @@ function createWindow() {
     });
     mainWindow.loadURL(startUrl);
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
 
     // Emitted when the window is closed.
