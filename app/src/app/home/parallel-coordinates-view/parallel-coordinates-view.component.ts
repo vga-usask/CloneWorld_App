@@ -89,7 +89,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       var temp = {};
 
       for (var i = this.datasetInfo.minRevision; i < this.datasetInfo.maxRevision; i++) {
-        temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : 0;
+        temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
       }
       data.push(temp);
     }
@@ -108,7 +108,9 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       })
       .mode('queue')
       .alpha(.3)
-      .alphaOnBrushed(.35);
+      .color("blue")
+      .alphaOnBrushed(.35)
+      .brushedColor("red");
   }
 
   private generateDimensions(pc, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
@@ -126,7 +128,10 @@ export class ParallelCoordinatesViewComponent implements OnInit {
         }
       }
     }
-    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))] = undefined;
+    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].ticks = undefined;
+    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].orient = "left";
+    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].ticks = undefined;
+    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].orient = "right";
 
     return dimensions;
   }
