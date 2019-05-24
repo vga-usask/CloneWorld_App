@@ -3,14 +3,30 @@
     <ion-title>
       CloneWorld
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="folder-open"></ion-icon>
-      </ion-button>
-      <ion-button title="Clone a New Git Repo" (click)="clone($event)">
+    <ion-buttons slot="start">
+      <ion-button class="menu-button" title="Clone a New Git Repo" (click)="clone($event)">
         <ion-icon name="download"></ion-icon>
       </ion-button>
-      <ion-menu-button></ion-menu-button>
+      <ion-button class="menu-button">
+        <ion-icon name="folder-open"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button class="menu-button" title="Toggle Control Panel">
+          <ion-icon name="options"></ion-icon>
+      </ion-menu-button>
+      <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">
+        <ion-icon name="bug"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-button" (click)="minimizeWindow()">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-button" (click)="maximizeOrUnmaximizeWindow()">
+        <ion-icon [name]="isWindowMaximized ? 'contract' : 'expand'"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-close-button" (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
