@@ -1,0 +1,7 @@
+<ion-item>
+  <ion-label position="stacked">Git Link</ion-label>
+  <ion-input #gitLinkInput clearInput placeholder="Enter the http link here"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-button (click)="confirm(gitLinkInput.value)">Confirm</ion-button>
+</ion-item>

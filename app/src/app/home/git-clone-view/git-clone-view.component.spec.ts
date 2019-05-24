@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpenViewComponent } from './open-view.component';
+import { GitCloneViewComponent } from './git-clone-view.component';
 
-describe('OpenViewComponent', () => {
-  let component: OpenViewComponent;
-  let fixture: ComponentFixture<OpenViewComponent>;
+describe('GitCloneViewComponent', () => {
+  let component: GitCloneViewComponent;
+  let fixture: ComponentFixture<GitCloneViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OpenViewComponent ],
+      declarations: [ GitCloneViewComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpenViewComponent);
+    fixture = TestBed.createComponent(GitCloneViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

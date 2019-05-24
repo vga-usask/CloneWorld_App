@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { OpenViewComponent } from './open-view/open-view.component';
+import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +11,12 @@ export class HomePage {
 
   constructor(private popoverController: PopoverController) { }
 
-  async open(ev: any){
+  async clone(ev: any){
     const popover = await this.popoverController.create({
-      component: OpenViewComponent,
+      component: GitCloneViewComponent,
       event: ev,
-      translucent: true
+      translucent: true,
+      id: "git-clone-popover"
     });
     popover.present();
   }

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { OpenViewComponent } from './open-view/open-view.component';
+import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 import { ParallelCoordinatesViewComponent } from './parallel-coordinates-view/parallel-coordinates-view.component';
 import { CloneQuickPickerViewComponent } from './clone-quick-picker-view/clone-quick-picker-view.component';
 
@@ -21,7 +21,7 @@ import { CloneQuickPickerViewComponent } from './clone-quick-picker-view/clone-q
       }
     ])
   ],
-  declarations: [HomePage, OpenViewComponent, ParallelCoordinatesViewComponent, CloneQuickPickerViewComponent],
-  entryComponents: [OpenViewComponent]
+  declarations: [HomePage, GitCloneViewComponent, ParallelCoordinatesViewComponent, CloneQuickPickerViewComponent],
+  entryComponents: [GitCloneViewComponent]
 })
 export class HomePageModule {}

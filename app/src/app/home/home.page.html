@@ -4,8 +4,11 @@
       CloneWorld
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="open($event)">
+      <ion-button>
         <ion-icon name="folder-open"></ion-icon>
+      </ion-button>
+      <ion-button title="Clone a New Git Repo" (click)="clone($event)">
+        <ion-icon name="download"></ion-icon>
       </ion-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
