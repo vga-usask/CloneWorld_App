@@ -90,4 +90,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
     this.datasetInfo.maxRevision = Math.max(...cloneDictionaryKeys);
   }
 
+  test(){
+    window.open('editor');
+  }
+
 }

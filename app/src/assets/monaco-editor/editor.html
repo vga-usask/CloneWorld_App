@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+
+		.myLineDecoration {
+			background: lightblue;
+			width: 5px !important;
+			margin-left: 3px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container" style="width:100%;height:100%"></div>
+	<script src="./lib/vs/loader.js"></script>
+	<script>
+		function requireMonacoAsync() {
+			return new Promise(resolve => require(['vs/editor/editor.main'], resolve)).then(() => monaco);
+		}
+
+		async function initializeEditor(value, language, highlightLines) {
+			require.config({ paths: { 'vs': './lib/vs' } });
+
+			const monaco = await requireMonacoAsync();
+			var editor = monaco.editor.create(document.getElementById('container'), {
+				value: value,
+				language: language
+			});
+
+			highlights = [];
+			for (const lineNumber of highlightLines) {
+				highlights.push({ range: new monaco.Range(lineNumber, 1, lineNumber, 1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' } })
+			}
+			var decorations = editor.deltaDecorations([], highlights);
+
+			window.onresize = function () {
+				editor.layout();
+			};
+
+			return editor;
+		}
+	</script>
+</body>
+
+</html>

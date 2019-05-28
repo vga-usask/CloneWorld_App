@@ -34,6 +34,7 @@
     "@ionic/angular": "^4.1.0",
     "core-js": "^2.5.4",
     "d3": "^5.9.2",
+    "monaco-editor": "^0.17.0",
     "ngx-childprocess": "0.0.6",
     "ngx-electron": "^2.1.1",
     "ngx-fs": "0.0.1",

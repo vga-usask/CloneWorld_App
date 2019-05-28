@@ -9,3 +9,24 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+ion-header > ion-toolbar {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+ion-header > ion-toolbar ion-button ,ion-header > ion-toolbar ion-menu-button {
+    -webkit-app-region: no-drag;
+}
+
+.menu-button:hover {
+    color: gray;
+}
+
+.toolbar-button:hover{
+    background-color: gray;
+}
+
+.toolbar-close-button:hover{
+    background-color: red;
+}

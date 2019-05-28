@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-title>CloneWorld - Editor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">
+        <ion-icon name="bug"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-button" (click)="minimizeWindow()">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-button" (click)="maximizeOrUnmaximizeWindow()">
+        <ion-icon [name]="isWindowMaximized ? 'contract' : 'expand'"></ion-icon>
+      </ion-button>
+      <ion-button class="toolbar-close-button" (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <iframe name="editor-frame" src="./assets/monaco-editor/editor.html" frameborder="0"
+    (load)="editorFrameLoadedHandler()"></iframe>
+</ion-content>
