@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-clone-instance-menu-view',
@@ -8,13 +9,21 @@ import { PopoverController } from '@ionic/angular';
 })
 export class CloneInstanceMenuViewComponent implements OnInit {
 
-  constructor(private popoverController: PopoverController) { }
+  @Input() gitRepositoryPath: string;
+  @Input() filePath: string;
 
-  ngOnInit() {}
+  constructor(private electronService: ElectronService, private popoverController: PopoverController) { }
+
+  ngOnInit() { }
 
   async openWithEditor(){
     await this.popoverController.dismiss(undefined, undefined, 'clone-instance-menu-popover');
     window.open('/editor');
+  }
+
+  async openWithExternalEditor() {
+    await this.popoverController.dismiss(undefined, undefined, 'clone-instance-menu-popover');
+    this.electronService.shell.openItem(this.gitRepositoryPath + "/" + this.filePath);
   }
 
 }

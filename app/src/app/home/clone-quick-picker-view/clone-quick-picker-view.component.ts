@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { PopoverController } from '@ionic/angular';
 import { CloneInstanceMenuViewComponent } from '../clone-instance-menu-view/clone-instance-menu-view.component';
@@ -56,6 +56,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
     global_change_count?: number
   }[] = [];
 
+  @Input() gitRepositoryPath: string;
+
   constructor(private popoverController: PopoverController) { }
 
   async ngOnInit() {
@@ -101,13 +103,17 @@ export class CloneQuickPickerViewComponent implements OnInit {
     this.datasetInfo.maxRevision = Math.max(...cloneDictionaryKeys);
   }
 
-  async showCloneItemOptions(ev: any) {
+  async showCloneItemOptions(ev: any, clone) {
     ev.preventDefault();
     const popover = await this.popoverController.create({
       component: CloneInstanceMenuViewComponent,
       event: ev,
       translucent: true,
-      id: 'clone-instance-menu-popover'
+      id: 'clone-instance-menu-popover',
+      componentProps: {
+        gitRepositoryPath: this.gitRepositoryPath,
+        filePath: clone.file
+      }
     });
     popover.present();
   }
