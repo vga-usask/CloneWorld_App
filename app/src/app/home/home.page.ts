@@ -12,6 +12,32 @@ import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component
 export class HomePage {
 
   isWindowMaximized: boolean;
+  gitRepositoryName: string = 'No Git Repo Opened';
+  isReportOpened: boolean = false;
+
+  private _gitRepositoryPath: string;
+  get gitRepositoryPath() {
+    return this._gitRepositoryPath;
+  }
+  set gitRepositoryPath(value: string) {
+    this._gitRepositoryPath = value;
+    if (value && value != '') {
+      var pathSplit = value.split('/');
+      this.gitRepositoryName = pathSplit[pathSplit.length - 1];
+    }
+    else {
+      this.gitRepositoryName = 'No Git Repo Opened';
+    }
+  }
+
+  private _reportPath: string;
+  get reportPath() {
+    return this._reportPath;
+  }
+  set reportPath(value: string) {
+    this._reportPath = value;
+    this.isReportOpened = value && value != '';
+  }
 
   constructor(private electronService: ElectronService, private popoverController: PopoverController) { }
 
@@ -25,7 +51,11 @@ export class HomePage {
       component: FileMenuViewComponent,
       event: ev,
       translucent: true,
-      id: "file-menu-popover"
+      id: "file-menu-popover",
+      componentProps: {
+        updateGitRepositoryPath: (value: string) => this.gitRepositoryPath = value,
+        updateReportPath: (value: string) => this.reportPath = value,
+      }
     });
     popover.present();
   }

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="medium">
     <ion-title>
-      CloneWorld
+      CloneWorld - {{gitRepositoryName}} (Report {{isReportOpened ? 'Opened' : 'Not Opened'}})
     </ion-title>
     <ion-buttons slot="start">
       <ion-button class="menu-button" (click)="openFileMenu($event)">
@@ -10,7 +10,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-menu-button class="menu-button" title="Toggle Control Panel">
-          <ion-icon name="options"></ion-icon>
+        <ion-icon name="options"></ion-icon>
       </ion-menu-button>
       <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">
         <ion-icon name="bug"></ion-icon>
