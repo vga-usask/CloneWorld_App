@@ -8,7 +8,7 @@ import { HomePage } from './home.page';
 import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 import { ParallelCoordinatesViewComponent } from './parallel-coordinates-view/parallel-coordinates-view.component';
 import { CloneQuickPickerViewComponent } from './clone-quick-picker-view/clone-quick-picker-view.component';
-import { CloneInstanceMenuViewComponent } from './open-clone-view/clone-instance-menu-view.component';
+import { CloneInstanceMenuViewComponent } from './clone-instance-menu-view/clone-instance-menu-view.component';
 
 @NgModule({
   imports: [

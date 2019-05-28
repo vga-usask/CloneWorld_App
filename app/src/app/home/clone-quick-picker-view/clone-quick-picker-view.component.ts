@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { PopoverController } from '@ionic/angular';
-import { CloneInstanceMenuViewComponent } from '../open-clone-view/clone-instance-menu-view.component';
+import { CloneInstanceMenuViewComponent } from '../clone-instance-menu-view/clone-instance-menu-view.component';
 
 @Component({
   selector: 'app-clone-quick-picker-view',
