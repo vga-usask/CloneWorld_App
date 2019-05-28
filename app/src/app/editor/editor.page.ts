@@ -16,6 +16,7 @@ export class EditorPage implements OnInit {
 
   ngOnInit() {
     this.updateIsWindowMaximized();
+    this.electronService.remote.getCurrentWindow().on('resize', () => this.updateIsWindowMaximized());
   }
 
   async editorFrameLoadedHandler() {
@@ -54,7 +55,6 @@ export class EditorPage implements OnInit {
     else {
       this.electronService.remote.getCurrentWindow().maximize();
     }
-    this.updateIsWindowMaximized();
   }
 
   close() {

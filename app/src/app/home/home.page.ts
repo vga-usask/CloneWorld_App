@@ -16,6 +16,7 @@ export class HomePage {
 
   ngOnInit() {
     this.updateIsWindowMaximized();
+    this.electronService.remote.getCurrentWindow().on('resize', () => this.updateIsWindowMaximized());
   }
 
   async clone(ev: any) {
@@ -28,11 +29,11 @@ export class HomePage {
     popover.present();
   }
 
-  openDebugger(){
+  openDebugger() {
     this.electronService.remote.getCurrentWebContents().openDevTools();
   }
 
-  minimizeWindow(){
+  minimizeWindow() {
     this.electronService.remote.getCurrentWindow().minimize();
   }
 
@@ -43,7 +44,6 @@ export class HomePage {
     else {
       this.electronService.remote.getCurrentWindow().maximize();
     }
-    this.updateIsWindowMaximized();
   }
 
   close() {
