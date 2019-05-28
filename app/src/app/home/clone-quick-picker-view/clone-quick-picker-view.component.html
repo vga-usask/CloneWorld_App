@@ -1,7 +1,7 @@
 <ion-content>
   <ion-list>
     <div *ngFor="let clone of frequentlyChangedCloneList">
-        <ion-checkbox [title]="clone.file" (contextmenu)="showCloneItemOptions($event)"></ion-checkbox>
+        <ion-checkbox [title]="clone.file + ' ~ ' + clone.global_change_count" (contextmenu)="showCloneItemOptions($event)"></ion-checkbox>
     </div>
   </ion-list>
 </ion-content>

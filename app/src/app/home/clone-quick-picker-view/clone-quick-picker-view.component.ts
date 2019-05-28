@@ -34,7 +34,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
         file: string,
         class_id: number,
         global_id: number,
-        change_count: number
+        change_count: number,
+        global_change_count?: number
       }
     }
   };
@@ -51,7 +52,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
     file: string,
     class_id: number,
     global_id: number,
-    change_count: number
+    change_count: number,
+    global_change_count?: number
   }[] = [];
 
   constructor(private popoverController: PopoverController) { }
@@ -71,17 +73,24 @@ export class CloneQuickPickerViewComponent implements OnInit {
             globalIdChangeFrequencyMap.set(
               clone.global_id,
               globalIdChangeFrequencyMap.get(clone.global_id) ?
-                globalIdChangeFrequencyMap.get(clone.global_id) + 1 :
-                1
+                globalIdChangeFrequencyMap.get(clone.global_id) + 1 : 1
             );
+          }
+          else {
+            if (!globalIdChangeFrequencyMap.get(clone.global_id)) {
+              globalIdChangeFrequencyMap.set(clone.global_id, 0);
+            }
           }
         }
       }
     }
 
     var globalIdChangeFrequencyList = Array.from(globalIdChangeFrequencyMap).sort((a, b) => b[1] - a[1]);
-    for (const globalId of globalIdChangeFrequencyList.map(d => d[0])) {
-      this.frequentlyChangedCloneList.push(this.globalIdDictionary[globalId][this.datasetInfo.maxRevision]);
+    for (const item of globalIdChangeFrequencyList) {
+      var globalId = item[0];
+      var clone = this.globalIdDictionary[globalId][this.datasetInfo.maxRevision];
+      clone.global_change_count = item[1];
+      this.frequentlyChangedCloneList.push(clone);
     }
   }
 
