@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 import { ElectronService } from 'ngx-electron';
+import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component';
 
 @Component({
   selector: 'app-home',
@@ -19,12 +20,12 @@ export class HomePage {
     this.electronService.remote.getCurrentWindow().on('resize', () => this.updateIsWindowMaximized());
   }
 
-  async clone(ev: any) {
+  async openFileMenu(ev: any) {
     const popover = await this.popoverController.create({
-      component: GitCloneViewComponent,
+      component: FileMenuViewComponent,
       event: ev,
       translucent: true,
-      id: "git-clone-popover"
+      id: "file-menu-popover"
     });
     popover.present();
   }

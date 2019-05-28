@@ -9,6 +9,7 @@ import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component
 import { ParallelCoordinatesViewComponent } from './parallel-coordinates-view/parallel-coordinates-view.component';
 import { CloneQuickPickerViewComponent } from './clone-quick-picker-view/clone-quick-picker-view.component';
 import { CloneInstanceMenuViewComponent } from './clone-instance-menu-view/clone-instance-menu-view.component';
+import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { CloneInstanceMenuViewComponent } from './clone-instance-menu-view/clone
       }
     ])
   ],
-  declarations: [HomePage, GitCloneViewComponent, ParallelCoordinatesViewComponent, CloneQuickPickerViewComponent, CloneInstanceMenuViewComponent],
-  entryComponents: [GitCloneViewComponent, CloneInstanceMenuViewComponent]
+  declarations: [HomePage, GitCloneViewComponent, ParallelCoordinatesViewComponent, CloneQuickPickerViewComponent, CloneInstanceMenuViewComponent, FileMenuViewComponent],
+  entryComponents: [GitCloneViewComponent, CloneInstanceMenuViewComponent, FileMenuViewComponent]
 })
 export class HomePageModule {}
