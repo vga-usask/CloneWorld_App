@@ -29,7 +29,7 @@ export class EditorPage implements OnInit {
     var startLine = parseInt(this.route.snapshot.queryParamMap.get('startLine'));
     var endLine = parseInt(this.route.snapshot.queryParamMap.get('endLine'));
 
-    var value = fs.readFileSync(filePath, 'utf8')
+    var value = fs.readFileSync(filePath, 'utf8');
     var highlightlines = [];
     for (var i = startLine; i <= endLine; i++) {
       highlightlines.push(i);
