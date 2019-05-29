@@ -3,6 +3,8 @@ import { PopoverController } from '@ionic/angular';
 import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 import { ElectronService } from 'ngx-electron';
 import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component';
+import { CloneReport } from '../data-structures/clone-report';
+import { FsService } from 'ngx-fs';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,8 @@ export class HomePage {
   isWindowMaximized: boolean;
   gitRepositoryName: string = 'No Git Repo Opened';
   isReportOpened: boolean = false;
+
+  cloneReport: CloneReport;
 
   private _gitRepositoryPath: string;
   get gitRepositoryPath() {
@@ -36,10 +40,20 @@ export class HomePage {
   }
   set reportPath(value: string) {
     this._reportPath = value;
-    this.isReportOpened = value && value != '';
+
+    if (value && value != '') {
+      // the fs service does not implement types
+      var fs = this.fsService.fs as any;
+      this.cloneReport = new CloneReport(
+        JSON.parse(fs.readFileSync(value + "/clone_map.json", 'utf8')),
+        JSON.parse(fs.readFileSync(value + "/global_id_map.json", 'utf8'))
+      );
+    }
+
+    this.isReportOpened = this.cloneReport && this.cloneReport.hasLoaded;
   }
 
-  constructor(private electronService: ElectronService, private popoverController: PopoverController) { }
+  constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController) { }
 
   ngOnInit() {
     this.updateIsWindowMaximized();

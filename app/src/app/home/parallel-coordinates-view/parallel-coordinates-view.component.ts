@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import ParCoords from 'parcoord-es';
 import * as d3 from 'd3';
+import { CloneReport } from 'src/app/data-structures/clone-report';
 
 @Component({
   selector: 'app-parallel-coordinates-view',
@@ -13,51 +14,24 @@ import * as d3 from 'd3';
 })
 export class ParallelCoordinatesViewComponent implements OnInit {
 
-  cloneDictionary: {
-    [revisionId: number]: {
-      [filePath: string]: {
-        [startLine: number]: {
-          pcid: number,
-          start_line: number,
-          end_line: number,
-          file: string,
-          class_id: number,
-          global_id: number,
-          change_count: number
-        }
-      }
-    }
-  };
-  globalIdDictionary: {
-    [globalId: number]: {
-      [revisionId: number]: {
-        pcid: number,
-        start_line: number,
-        end_line: number,
-        file: string,
-        class_id: number,
-        global_id: number,
-        change_count: number
-      }
-    }
-  };
-  datasetInfo: {
-    minRevision: number,
-    maxRevision: number
-  } = {} as any;
+  private _cloneReport: CloneReport;
+  get cloneReport() {
+    return this._cloneReport;
+  }
+  @Input() set cloneReport(value: CloneReport) {
+    this._cloneReport = value;
+    this.initialize();
+  }
 
   constructor() { }
 
-  async ngOnInit() {
-    // TODO those files are not syncing with Git
-    this.cloneDictionary = await d3.json('assets/clone_map.json') as any;
-    this.globalIdDictionary = await d3.json('assets/global_id_map.json') as any;
+  ngOnInit() { }
 
-    this.obtainDatasetInfo();
+  private initialize() {
     var chartData = this.generateChartData();
 
     var removeUnchangedRevisionsFilter = (revisionId: number) => {
-      for (const file of Object.values(this.cloneDictionary[revisionId])) {
+      for (const file of Object.values(this.cloneReport.cloneDictionary[revisionId])) {
         for (const clone of Object.values(file)) {
           if (clone.change_count > 0) {
             return true;
@@ -67,28 +41,21 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       return false;
     }
 
-    setTimeout(() => this.updateChart(chartData, this.datasetInfo.minRevision, this.datasetInfo.maxRevision, removeUnchangedRevisionsFilter), 1000);
+    this.updateChart(chartData, this.cloneReport.info.minRevision, this.cloneReport.info.maxRevision, removeUnchangedRevisionsFilter);
 
     window.onresize = () => {
-      this.updateChart(chartData, this.datasetInfo.minRevision, this.datasetInfo.maxRevision, removeUnchangedRevisionsFilter);
+      this.updateChart(chartData, this.cloneReport.info.minRevision, this.cloneReport.info.maxRevision, removeUnchangedRevisionsFilter);
     };
-  }
-
-  private obtainDatasetInfo() {
-    var cloneDictionaryKeys = Object.keys(this.cloneDictionary).map(d => parseInt(d));
-
-    this.datasetInfo.minRevision = Math.min(...cloneDictionaryKeys);
-    this.datasetInfo.maxRevision = Math.max(...cloneDictionaryKeys);
   }
 
   private generateChartData() {
     var data = [];
 
-    for (const globalId of Array.from(Object.keys(this.globalIdDictionary)) as unknown as number[]) {
-      var revisionsNode = this.globalIdDictionary[globalId];
+    for (const globalId of Array.from(Object.keys(this.cloneReport.globalIdDictionary)) as unknown as number[]) {
+      var revisionsNode = this.cloneReport.globalIdDictionary[globalId];
       var temp = {};
 
-      for (var i = this.datasetInfo.minRevision; i < this.datasetInfo.maxRevision; i++) {
+      for (var i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
         temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
       }
       data.push(temp);
@@ -116,7 +83,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
   private generateDimensions(pc, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
     var dimensions = {};
     var range = pc.height() - pc.margin().top - pc.margin().bottom;
-    var max = d3.max(Object.values(this.globalIdDictionary), d => d3.max(Object.values(d), dd => dd.change_count));
+    var max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
     var scale = d3.scaleLinear().domain([0, max]).range([range, 1]);
 
     for (var i = minRevision; i < maxRevision; i++) {

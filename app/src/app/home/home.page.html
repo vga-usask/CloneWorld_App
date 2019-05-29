@@ -62,12 +62,12 @@
       <ion-row class="other-view">
         <ion-col>
           <ion-card>
-            <app-parallel-coordinates-view></app-parallel-coordinates-view>
+            <app-parallel-coordinates-view [cloneReport]="cloneReport"></app-parallel-coordinates-view>
           </ion-card>
         </ion-col>
         <ion-col size="0" style="min-width: 50px">
           <ion-card>
-            <app-clone-quick-picker-view [gitRepositoryPath]="gitRepositoryPath"></app-clone-quick-picker-view>
+            <app-clone-quick-picker-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath"></app-clone-quick-picker-view>
           </ion-card>
         </ion-col>
       </ion-row>
