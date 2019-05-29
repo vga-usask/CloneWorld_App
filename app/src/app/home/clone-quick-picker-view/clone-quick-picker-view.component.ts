@@ -112,7 +112,10 @@ export class CloneQuickPickerViewComponent implements OnInit {
       id: 'clone-instance-menu-popover',
       componentProps: {
         gitRepositoryPath: this.gitRepositoryPath,
-        filePath: clone.file
+        filePath: clone.file,
+        language: 'java',
+        startLine: clone.start_line,
+        endLine: clone.end_line
       }
     });
     popover.present();
