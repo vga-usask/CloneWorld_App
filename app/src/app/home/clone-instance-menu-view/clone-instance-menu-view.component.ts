@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { ElectronService } from 'ngx-electron';
+import { FsService } from 'ngx-fs';
 
 @Component({
   selector: 'app-clone-instance-menu-view',
@@ -15,24 +16,48 @@ export class CloneInstanceMenuViewComponent implements OnInit {
   @Input() startLine: number;
   @Input() endLine: number;
 
-  constructor(private electronService: ElectronService, private popoverController: PopoverController) { }
+  private get fileFullPath() {
+    return this.gitRepositoryPath + "/" + this.filePath;
+  }
+
+  constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController, private alertController: AlertController) { }
 
   ngOnInit() { }
 
   async openWithEditor() {
     await this.popoverController.dismiss(undefined, undefined, 'clone-instance-menu-popover');
-    window.open(
-      './index.html#/editor' +
-      '?filePath=' + this.gitRepositoryPath + "/" + this.filePath +
-      '&language=' + this.language +
-      '&startLine=' + this.startLine +
-      '&endLine=' + this.endLine
-    );
+
+    this.checkIfFileExistThenRun(this.fileFullPath, path => {
+      window.open(
+        './index.html#/editor' +
+        '?filePath=' + path +
+        '&language=' + this.language +
+        '&startLine=' + this.startLine +
+        '&endLine=' + this.endLine
+      );
+    });
   }
 
   async openWithExternalEditor() {
     await this.popoverController.dismiss(undefined, undefined, 'clone-instance-menu-popover');
-    this.electronService.shell.openItem(this.gitRepositoryPath + "/" + this.filePath);
+
+    this.checkIfFileExistThenRun(this.fileFullPath, path => this.electronService.shell.openItem(path));
+  }
+
+  private async checkIfFileExistThenRun(fileFullpath: string, functionToRun: (fileFullpath: string) => void) {
+    // the fs service does not implement types
+    var fs = this.fsService.fs as any;
+    if (fs.existsSync(fileFullpath)) {
+      functionToRun(fileFullpath);
+    }
+    else {
+      const alert = await this.alertController.create({
+        header: 'File Does Not Exist',
+        subHeader: 'Please check if you opened correct Git repo directory.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
   }
 
 }
