@@ -13,6 +13,8 @@ import { FsService } from 'ngx-fs';
 export class EditorPage implements OnInit {
 
   isWindowMaximized: boolean;
+  currentEditor: monaco.editor.IStandaloneCodeEditor;
+  currentFilePath: string;
 
   constructor(private electronService: ElectronService, private fsService: FsService, private route: ActivatedRoute) { }
 
@@ -20,16 +22,16 @@ export class EditorPage implements OnInit {
     this.updateIsWindowMaximized();
     this.electronService.remote.getCurrentWindow().on('resize', () => this.updateIsWindowMaximized());
   }
-  
+
   async editorFrameLoadedHandler() {
     // the fs service does not implement types
     var fs = this.fsService.fs as any;
-    var filePath = this.route.snapshot.queryParamMap.get('filePath');
+    this.currentFilePath = this.route.snapshot.queryParamMap.get('filePath');
     var language = this.route.snapshot.queryParamMap.get('language');
     var startLine = parseInt(this.route.snapshot.queryParamMap.get('startLine'));
     var endLine = parseInt(this.route.snapshot.queryParamMap.get('endLine'));
 
-    var value = fs.readFileSync(filePath, 'utf8');
+    var value = fs.readFileSync(this.currentFilePath, 'utf8');
     var highlightlines = [];
     for (var i = startLine; i <= endLine; i++) {
       highlightlines.push(i);
@@ -39,7 +41,16 @@ export class EditorPage implements OnInit {
       initializeEditor(value: string, language: string, highlightLines: number[]): monaco.editor.IStandaloneCodeEditor
     } = window.frames['editor-frame'];
 
-    var editor = await editorFrame.initializeEditor(value, language, highlightlines);
+    this.currentEditor = await editorFrame.initializeEditor(value, language, highlightlines);
+  }
+
+  saveFile() {
+    if (this.currentEditor) {
+      var content = this.currentEditor.getValue();
+      // the fs service does not implement types
+      var fs = this.fsService.fs as any;
+      fs.writeFileSync(this.currentFilePath, content);
+    }
   }
 
   openDebugger() {

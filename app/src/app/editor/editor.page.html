@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar color="medium">
     <ion-title>CloneWorld - Editor</ion-title>
+    <ion-buttons slot="start">
+        <ion-button class="menu-button" (click)="saveFile()">
+          <ion-icon name="save"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     <ion-buttons slot="end">
       <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">
         <ion-icon name="bug"></ion-icon>
