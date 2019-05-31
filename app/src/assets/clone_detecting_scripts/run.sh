@@ -124,4 +124,4 @@ do
   PREVIOUS_COMMIT_ID=$COMMIT_ID
 done < $INPUT_FILE_PATH
 
-python3 ./mapping.py "system/source" 0  `expr $REVISION_COUNT - 1` "temp/reports" "temp/changes" $OUTPUT_PATH
+python3 ./mapping.py "systems/source" 0  `expr $REVISION_COUNT - 1` "temp/reports" "temp/changes" $OUTPUT_PATH
