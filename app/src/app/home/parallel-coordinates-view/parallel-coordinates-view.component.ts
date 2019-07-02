@@ -84,7 +84,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     var dimensions = {};
     var range = pc.height() - pc.margin().top - pc.margin().bottom;
     var max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
-    var scale = d3.scaleLinear().domain([0, max]).range([range, 1]);
+    var scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
 
     for (var i = minRevision; i < maxRevision; i++) {
       if (filter(i)) {
