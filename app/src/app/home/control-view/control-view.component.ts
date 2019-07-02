@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ChildProcessService } from 'ngx-childprocess';
 import { AlertController } from '@ionic/angular';
 
@@ -10,6 +10,17 @@ import { AlertController } from '@ionic/angular';
 export class ControlViewComponent implements OnInit {
 
   @Input() gitRepositoryPath: string;
+
+  private _cloneListMaxCount: number;
+  get cloneListMaxCount(){
+    return this._cloneListMaxCount;
+  }
+  @Input() set cloneListMaxCount(value: number){
+    this._cloneListMaxCount = value;
+    this.cloneListMaxCountChange.emit(value);
+  }
+  @Output() cloneListMaxCountChange = new EventEmitter();
+
 
   constructor(private childProcessService: ChildProcessService, private alertController: AlertController) { }
 

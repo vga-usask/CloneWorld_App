@@ -32,7 +32,7 @@
   <ion-split-pane contentId="menu-content">
     <!--  our side menu  -->
     <ion-menu side="end" contentId="menu-content">
-      <app-control-view [gitRepositoryPath]="gitRepositoryPath"></app-control-view>
+      <app-control-view [gitRepositoryPath]="gitRepositoryPath" [(cloneListMaxCount)]="cloneListMaxCount"></app-control-view>
     </ion-menu>
 
     <!-- the main content -->
@@ -67,7 +67,7 @@
         </ion-col>
         <ion-col size="0" style="min-width: 50px">
           <ion-card>
-            <app-clone-quick-picker-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath"></app-clone-quick-picker-view>
+            <app-clone-quick-picker-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath" [cloneListMaxCount]="cloneListMaxCount"></app-clone-quick-picker-view>
           </ion-card>
         </ion-col>
       </ion-row>

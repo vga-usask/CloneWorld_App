@@ -19,6 +19,8 @@ export class HomePage {
 
   cloneReport: CloneReport;
 
+  cloneListMaxCount: number = 100;
+
   private _gitRepositoryPath: string;
   get gitRepositoryPath() {
     return this._gitRepositoryPath;

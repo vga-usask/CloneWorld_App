@@ -24,6 +24,17 @@ export class CloneQuickPickerViewComponent implements OnInit {
 
   @Input() gitRepositoryPath: string;
 
+  private _cloneListMaxCount: number;
+  get cloneListMaxCount() {
+    return this._cloneListMaxCount;
+  }
+  @Input() set cloneListMaxCount(value: number) {
+    this._cloneListMaxCount = value;
+    if (this.cloneReport) {
+      this.initialize();
+    }
+  }
+
   constructor(private popoverController: PopoverController) { }
 
   ngOnInit() { }
@@ -59,6 +70,7 @@ export class CloneQuickPickerViewComponent implements OnInit {
       clone.global_change_count = item[1];
       this.frequentlyChangedCloneList.push(clone);
     }
+    this.frequentlyChangedCloneList = this.frequentlyChangedCloneList.slice(0, this.cloneListMaxCount);
   }
 
   async showCloneItemOptions(ev: any, clone) {
