@@ -6,11 +6,20 @@
   <ion-button expand="block" (click)="gitDiscardFileChanges()">Discard Git Changes</ion-button>
 </ion-item-group>
 <ion-item-group>
-    <ion-item-divider>
-      <ion-label>Clone Quick Picker</ion-label>
-    </ion-item-divider>
-    <ion-item>
-        <ion-label position="fixed">Max Count</ion-label>
-        <ion-input type="number" [(ngModel)]="cloneListMaxCount" min="0"></ion-input>
-      </ion-item>
-  </ion-item-group>
+  <ion-item-divider>
+    <ion-label>Clone Quick Picker</ion-label>
+  </ion-item-divider>
+  <ion-item>
+    <ion-label position="fixed">Max Count</ion-label>
+    <ion-input type="number" [(ngModel)]="cloneListMaxCount" min="0"></ion-input>
+  </ion-item>
+</ion-item-group>
+<ion-item-group>
+  <ion-item-divider>
+    <ion-label>Parallel Coordinates</ion-label>
+  </ion-item-divider>
+  <ion-item>
+    <ion-label>Ignore Unchanged Clones</ion-label>
+    <ion-toggle [(ngModel)]="isIgnoringUnchangedClones"></ion-toggle>
+  </ion-item>
+</ion-item-group>

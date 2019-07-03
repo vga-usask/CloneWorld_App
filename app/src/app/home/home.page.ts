@@ -20,6 +20,7 @@ export class HomePage {
   cloneReport: CloneReport;
 
   cloneListMaxCount = 100;
+  isIgnoringUnchangedClones = true;
 
   private _gitRepositoryPath: string;
   get gitRepositoryPath() {

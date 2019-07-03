@@ -21,6 +21,16 @@ export class ControlViewComponent implements OnInit {
   }
   @Output() cloneListMaxCountChange = new EventEmitter();
 
+  private _isIgnoringUnchangedClones: number;
+  get isIgnoringUnchangedClones() {
+    return this._isIgnoringUnchangedClones;
+  }
+  @Input() set isIgnoringUnchangedClones(value: number) {
+    this._isIgnoringUnchangedClones = value;
+    this.isIgnoringUnchangedClonesChange.emit(value);
+  }
+  @Output() isIgnoringUnchangedClonesChange = new EventEmitter();
+
 
   constructor(private childProcessService: ChildProcessService, private alertController: AlertController) { }
 

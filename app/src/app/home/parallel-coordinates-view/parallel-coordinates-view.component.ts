@@ -23,13 +23,37 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     this.initialize();
   }
 
+  private _isIgnoringUnchangedClones: boolean;
+  get isIgnoringUnchangedClones() {
+    return this._isIgnoringUnchangedClones;
+  }
+  @Input() set isIgnoringUnchangedClones(value: boolean) {
+    this._isIgnoringUnchangedClones = value;
+    if (this.cloneReport) {
+      this.initialize();
+    }
+  }
+
   constructor() { }
 
   ngOnInit() { }
 
   private initialize() {
     let chartData = this.generateChartData();
-    chartData = chartData.filter(d => d[this.cloneReport.info.maxRevision - 1] >= 0);
+    chartData = chartData.filter(d => {
+      let result = d[this.cloneReport.info.maxRevision - 1] >= 0;
+      if (this.isIgnoringUnchangedClones) {
+        let hasChangeCount = false;
+        for (let i = 0; i < this.cloneReport.info.maxRevision - 1; i++) {
+          if (d[i] > 0) {
+            hasChangeCount = true;
+            break;
+          }
+        }
+        result = result && hasChangeCount;
+      }
+      return result;
+    });
 
     const removeUnchangedRevisionsFilter = (revisionId: number, chartData: any[]) => {
       for (const file of Object.values(this.cloneReport.cloneDictionary[revisionId])) {
@@ -54,7 +78,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
 
     for (const globalId of Array.from(Object.keys(this.cloneReport.globalIdDictionary)) as unknown as number[]) {
       const revisionsNode = this.cloneReport.globalIdDictionary[globalId];
-      const temp = {};
+      const temp = {} as any;
 
       for (let i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
         temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
@@ -83,7 +107,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
   }
 
   private generateDimensions(pc, minRevision: number, maxRevision: number, data, filter: (revisionId: number, chartData: any[]) => boolean) {
-    const dimensions = {};
+    const dimensions = {} as any;
     const range = pc.height() - pc.margin().top - pc.margin().bottom;
     const max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
     const scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
