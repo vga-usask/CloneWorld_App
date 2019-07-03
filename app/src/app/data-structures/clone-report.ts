@@ -23,7 +23,7 @@ export class CloneReport {
     }
 
     private obtainDatasetInfo(cloneDictionary: CloneDictionary) {
-        var cloneDictionaryKeys = Object.keys(cloneDictionary).map(d => parseInt(d));
+        const cloneDictionaryKeys = Object.keys(cloneDictionary).map(d => parseInt(d));
 
         this.info.minRevision = Math.min(...cloneDictionaryKeys);
         this.info.maxRevision = Math.max(...cloneDictionaryKeys);

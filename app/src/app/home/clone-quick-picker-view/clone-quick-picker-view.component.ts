@@ -42,7 +42,7 @@ export class CloneQuickPickerViewComponent implements OnInit {
   initialize() {
     this.frequentlyChangedCloneList = [];
 
-    var globalIdChangeFrequencyMap = new Map<number, number>();
+    const globalIdChangeFrequencyMap = new Map<number, number>();
 
     for (const revisionNode of Object.values(this.cloneReport.globalIdDictionary)) {
       if (revisionNode[this.cloneReport.info.maxRevision]) {
@@ -53,8 +53,7 @@ export class CloneQuickPickerViewComponent implements OnInit {
               globalIdChangeFrequencyMap.get(clone.global_id) ?
                 globalIdChangeFrequencyMap.get(clone.global_id) + 1 : 1
             );
-          }
-          else {
+          } else {
             if (!globalIdChangeFrequencyMap.get(clone.global_id)) {
               globalIdChangeFrequencyMap.set(clone.global_id, 0);
             }
@@ -63,10 +62,10 @@ export class CloneQuickPickerViewComponent implements OnInit {
       }
     }
 
-    var globalIdChangeFrequencyList = Array.from(globalIdChangeFrequencyMap).sort((a, b) => b[1] - a[1]);
+    const globalIdChangeFrequencyList = Array.from(globalIdChangeFrequencyMap).sort((a, b) => b[1] - a[1]);
     for (const item of globalIdChangeFrequencyList) {
-      var globalId = item[0];
-      var clone = this.cloneReport.globalIdDictionary[globalId][this.cloneReport.info.maxRevision];
+      const globalId = item[0];
+      const clone = this.cloneReport.globalIdDictionary[globalId][this.cloneReport.info.maxRevision];
       clone.global_change_count = item[1];
       this.frequentlyChangedCloneList.push(clone);
     }

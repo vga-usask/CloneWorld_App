@@ -12,10 +12,10 @@ export class ControlViewComponent implements OnInit {
   @Input() gitRepositoryPath: string;
 
   private _cloneListMaxCount: number;
-  get cloneListMaxCount(){
+  get cloneListMaxCount() {
     return this._cloneListMaxCount;
   }
-  @Input() set cloneListMaxCount(value: number){
+  @Input() set cloneListMaxCount(value: number) {
     this._cloneListMaxCount = value;
     this.cloneListMaxCountChange.emit(value);
   }
@@ -27,7 +27,7 @@ export class ControlViewComponent implements OnInit {
   ngOnInit() { }
 
   gitDetectFileChanges() {
-    var command = 'git diff --name-only';
+    const command = 'git diff --name-only';
     this.childProcessService.childProcess.exec(command, { cwd: this.gitRepositoryPath } as any, async (err, stdout, stderr) => {
       const alert = await this.alertController.create({
         header: 'Detect File Changes',
@@ -41,7 +41,7 @@ export class ControlViewComponent implements OnInit {
   }
 
   gitDiscardFileChanges() {
-    var command = 'git checkout .';
+    const command = 'git checkout .';
     this.childProcessService.childProcess.exec(command, { cwd: this.gitRepositoryPath } as any, async (err, stdout, stderr) => {
       const alert = await this.alertController.create({
         header: 'Done',

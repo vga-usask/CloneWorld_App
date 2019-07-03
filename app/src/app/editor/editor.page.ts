@@ -25,15 +25,15 @@ export class EditorPage implements OnInit {
 
   async editorFrameLoadedHandler() {
     // the fs service does not implement types
-    var fs = this.fsService.fs as any;
+    let fs = this.fsService.fs as any;
     this.currentFilePath = this.route.snapshot.queryParamMap.get('filePath');
-    var language = this.route.snapshot.queryParamMap.get('language');
-    var startLine = parseInt(this.route.snapshot.queryParamMap.get('startLine'));
-    var endLine = parseInt(this.route.snapshot.queryParamMap.get('endLine'));
+    let language = this.route.snapshot.queryParamMap.get('language');
+    let startLine = parseInt(this.route.snapshot.queryParamMap.get('startLine'));
+    let endLine = parseInt(this.route.snapshot.queryParamMap.get('endLine'));
 
-    var value = fs.readFileSync(this.currentFilePath, 'utf8');
-    var highlightlines = [];
-    for (var i = startLine; i <= endLine; i++) {
+    let value = fs.readFileSync(this.currentFilePath, 'utf8');
+    let highlightlines = [];
+    for (let i = startLine; i <= endLine; i++) {
       highlightlines.push(i);
     }
 
@@ -46,9 +46,9 @@ export class EditorPage implements OnInit {
 
   saveFile() {
     if (this.currentEditor) {
-      var content = this.currentEditor.getValue();
+      let content = this.currentEditor.getValue();
       // the fs service does not implement types
-      var fs = this.fsService.fs as any;
+      let fs = this.fsService.fs as any;
       fs.writeFileSync(this.currentFilePath, content);
     }
   }
@@ -64,8 +64,7 @@ export class EditorPage implements OnInit {
   maximizeOrUnmaximizeWindow() {
     if (this.isWindowMaximized) {
       this.electronService.remote.getCurrentWindow().unmaximize();
-    }
-    else {
+    } else {
       this.electronService.remote.getCurrentWindow().maximize();
     }
   }

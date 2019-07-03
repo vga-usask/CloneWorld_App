@@ -21,10 +21,10 @@ export class GitCloneViewComponent implements OnInit {
 
   private async gitClone(gitLink: string, outDirectory: string) {
     if (outDirectory && outDirectory != '') {
-      var command = 'git clone ' + gitLink;
+      const command = 'git clone ' + gitLink;
 
       // the fs service does not implement types
-      var fs = this.fsService.fs as any;
+      const fs = this.fsService.fs as any;
       if (!fs.existsSync(outDirectory)) {
         fs.mkdirSync(outDirectory);
       }
@@ -36,7 +36,7 @@ export class GitCloneViewComponent implements OnInit {
 
       this.childProcessService.childProcess.exec(command, { cwd: outDirectory } as any, async (err, stdout, stderr) => {
         await cloneLoadingController.dismiss();
-        await this.popoverController.dismiss(undefined, undefined, "git-clone-popover");
+        await this.popoverController.dismiss(undefined, undefined, 'git-clone-popover');
       });
     }
   }

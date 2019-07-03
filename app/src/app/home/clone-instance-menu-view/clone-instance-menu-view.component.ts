@@ -17,7 +17,7 @@ export class CloneInstanceMenuViewComponent implements OnInit {
   @Input() endLine: number;
 
   private get fileFullPath() {
-    return this.gitRepositoryPath + "/" + this.filePath;
+    return this.gitRepositoryPath + '/' + this.filePath;
   }
 
   constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController, private alertController: AlertController) { }
@@ -46,11 +46,10 @@ export class CloneInstanceMenuViewComponent implements OnInit {
 
   private async checkIfFileExistThenRun(fileFullpath: string, functionToRun: (fileFullpath: string) => void) {
     // the fs service does not implement types
-    var fs = this.fsService.fs as any;
+    const fs = this.fsService.fs as any;
     if (fs.existsSync(fileFullpath)) {
       functionToRun(fileFullpath);
-    }
-    else {
+    } else {
       const alert = await this.alertController.create({
         header: 'File Does Not Exist',
         subHeader: 'Please check if you opened correct Git repo directory.',

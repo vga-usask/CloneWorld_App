@@ -19,7 +19,7 @@ export class FileMenuViewComponent implements OnInit {
     this.updateGitRepositoryPath(value);
   }
   @Input() updateGitRepositoryPath: (value: string) => void;
-  
+
   private _reportPath: string;
   get reportPath() {
     return this._reportPath;
@@ -52,7 +52,7 @@ export class FileMenuViewComponent implements OnInit {
     })[0].replace(/\\/g, '/');
   }
 
-  async openReport(){
+  async openReport() {
     await this.popoverController.dismiss(undefined, undefined, 'file-menu-popover');
     this.reportPath = this.electronService.remote.dialog.showOpenDialog({
       title: 'Select Report Directory',

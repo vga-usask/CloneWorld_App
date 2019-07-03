@@ -28,10 +28,10 @@ export class ParallelCoordinatesViewComponent implements OnInit {
   ngOnInit() { }
 
   private initialize() {
-    var chartData = this.generateChartData();
+    let chartData = this.generateChartData();
     chartData = chartData.filter(d => d[this.cloneReport.info.maxRevision - 1] >= 0);
 
-    var removeUnchangedRevisionsFilter = (revisionId: number, chartData: any[]) => {
+    const removeUnchangedRevisionsFilter = (revisionId: number, chartData: any[]) => {
       for (const file of Object.values(this.cloneReport.cloneDictionary[revisionId])) {
         for (const clone of Object.values(file)) {
           if (chartData.find(d => d.id == clone.global_id) && clone.change_count > 0) {
@@ -40,7 +40,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
         }
       }
       return false;
-    }
+    };
 
     this.updateChart(chartData, this.cloneReport.info.minRevision, this.cloneReport.info.maxRevision, removeUnchangedRevisionsFilter);
 
@@ -50,16 +50,16 @@ export class ParallelCoordinatesViewComponent implements OnInit {
   }
 
   private generateChartData() {
-    var data = [];
+    const data = [];
 
     for (const globalId of Array.from(Object.keys(this.cloneReport.globalIdDictionary)) as unknown as number[]) {
-      var revisionsNode = this.cloneReport.globalIdDictionary[globalId];
-      var temp = {};
+      const revisionsNode = this.cloneReport.globalIdDictionary[globalId];
+      const temp = {};
 
-      for (var i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
+      for (let i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
         temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
       }
-      temp['id'] = globalId.toString();
+      temp.id = globalId.toString();
       data.push(temp);
     }
 
@@ -77,31 +77,31 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       })
       .mode('queue')
       .alpha(.3)
-      .color("blue")
+      .color('blue')
       .alphaOnBrushed(.35)
-      .brushedColor("red");
+      .brushedColor('red');
   }
 
   private generateDimensions(pc, minRevision: number, maxRevision: number, data, filter: (revisionId: number, chartData: any[]) => boolean) {
-    var dimensions = {};
-    var range = pc.height() - pc.margin().top - pc.margin().bottom;
-    var max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
-    var scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
+    const dimensions = {};
+    const range = pc.height() - pc.margin().top - pc.margin().bottom;
+    const max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
+    const scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
 
-    for (var i = minRevision; i < maxRevision; i++) {
+    for (let i = minRevision; i < maxRevision; i++) {
       if (filter(i, data)) {
         dimensions[i] = {
           type: 'number',
           yscale: scale,
           ticks: 0
-        }
+        };
       }
     }
     dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].ticks = 10;
-    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].orient = "left";
+    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].orient = 'left';
     dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].ticks = 10;
-    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].orient = "right";
-    dimensions['id'] = {
+    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].orient = 'right';
+    dimensions.id = {
       type: 'string',
       ticks: 0,
       tickValues: []
@@ -111,8 +111,8 @@ export class ParallelCoordinatesViewComponent implements OnInit {
   }
 
   private updateChart(data, minRevision: number, maxRevision: number, filter: (revisionId: number, chartData: any[]) => boolean) {
-    var pc = this.initializeParcoords();
-    var dimensions = this.generateDimensions(pc, minRevision, maxRevision, data, filter);
+    const pc = this.initializeParcoords();
+    const dimensions = this.generateDimensions(pc, minRevision, maxRevision, data, filter);
     pc
       .data(data)
       .dimensions(dimensions)
@@ -120,5 +120,5 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       .createAxes()
       .reorderable()
       .brushMode('1D-axes-multi');
-  };
+  }
 }

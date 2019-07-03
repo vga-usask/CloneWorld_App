@@ -14,12 +14,12 @@ import { FsService } from 'ngx-fs';
 export class HomePage {
 
   isWindowMaximized: boolean;
-  gitRepositoryName: string = 'No Git Repo Opened';
-  isReportOpened: boolean = false;
+  gitRepositoryName = 'No Git Repo Opened';
+  isReportOpened = false;
 
   cloneReport: CloneReport;
 
-  cloneListMaxCount: number = 100;
+  cloneListMaxCount = 100;
 
   private _gitRepositoryPath: string;
   get gitRepositoryPath() {
@@ -28,10 +28,9 @@ export class HomePage {
   set gitRepositoryPath(value: string) {
     this._gitRepositoryPath = value;
     if (value && value != '') {
-      var pathSplit = value.split('/');
+      const pathSplit = value.split('/');
       this.gitRepositoryName = pathSplit[pathSplit.length - 1];
-    }
-    else {
+    } else {
       this.gitRepositoryName = 'No Git Repo Opened';
     }
   }
@@ -45,10 +44,10 @@ export class HomePage {
 
     if (value && value != '') {
       // the fs service does not implement types
-      var fs = this.fsService.fs as any;
+      const fs = this.fsService.fs as any;
       this.cloneReport = new CloneReport(
-        JSON.parse(fs.readFileSync(value + "/clone_map.json", 'utf8')),
-        JSON.parse(fs.readFileSync(value + "/global_id_map.json", 'utf8'))
+        JSON.parse(fs.readFileSync(value + '/clone_map.json', 'utf8')),
+        JSON.parse(fs.readFileSync(value + '/global_id_map.json', 'utf8'))
       );
     }
 
@@ -67,7 +66,7 @@ export class HomePage {
       component: FileMenuViewComponent,
       event: ev,
       translucent: true,
-      id: "file-menu-popover",
+      id: 'file-menu-popover',
       componentProps: {
         updateGitRepositoryPath: (value: string) => this.gitRepositoryPath = value,
         updateReportPath: (value: string) => this.reportPath = value,
@@ -87,8 +86,7 @@ export class HomePage {
   maximizeOrUnmaximizeWindow() {
     if (this.isWindowMaximized) {
       this.electronService.remote.getCurrentWindow().unmaximize();
-    }
-    else {
+    } else {
       this.electronService.remote.getCurrentWindow().maximize();
     }
   }
