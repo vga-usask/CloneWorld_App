@@ -29,11 +29,12 @@ export class ParallelCoordinatesViewComponent implements OnInit {
 
   private initialize() {
     var chartData = this.generateChartData();
+    chartData = chartData.filter(d => d[this.cloneReport.info.maxRevision - 1] >= 0);
 
-    var removeUnchangedRevisionsFilter = (revisionId: number) => {
+    var removeUnchangedRevisionsFilter = (revisionId: number, chartData: any[]) => {
       for (const file of Object.values(this.cloneReport.cloneDictionary[revisionId])) {
         for (const clone of Object.values(file)) {
-          if (clone.change_count > 0) {
+          if (chartData.find(d => d.id == clone.global_id) && clone.change_count > 0) {
             return true;
           }
         }
@@ -58,6 +59,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       for (var i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
         temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
       }
+      temp['id'] = globalId.toString();
       data.push(temp);
     }
 
@@ -80,14 +82,14 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       .brushedColor("red");
   }
 
-  private generateDimensions(pc, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
+  private generateDimensions(pc, minRevision: number, maxRevision: number, data, filter: (revisionId: number, chartData: any[]) => boolean) {
     var dimensions = {};
     var range = pc.height() - pc.margin().top - pc.margin().bottom;
     var max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
     var scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
 
     for (var i = minRevision; i < maxRevision; i++) {
-      if (filter(i)) {
+      if (filter(i, data)) {
         dimensions[i] = {
           type: 'number',
           yscale: scale,
@@ -95,17 +97,22 @@ export class ParallelCoordinatesViewComponent implements OnInit {
         }
       }
     }
-    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].ticks = undefined;
+    dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].ticks = 10;
     dimensions[d3.min(Object.keys(dimensions), d => parseInt(d))].orient = "left";
-    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].ticks = undefined;
+    dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].ticks = 10;
     dimensions[d3.max(Object.keys(dimensions), d => parseInt(d))].orient = "right";
+    dimensions['id'] = {
+      type: 'string',
+      ticks: 0,
+      tickValues: []
+    };
 
     return dimensions;
   }
 
-  private updateChart(data, minRevision: number, maxRevision: number, filter: (revisionId: number) => boolean) {
+  private updateChart(data, minRevision: number, maxRevision: number, filter: (revisionId: number, chartData: any[]) => boolean) {
     var pc = this.initializeParcoords();
-    var dimensions = this.generateDimensions(pc, minRevision, maxRevision, filter);
+    var dimensions = this.generateDimensions(pc, minRevision, maxRevision, data, filter);
     pc
       .data(data)
       .dimensions(dimensions)
