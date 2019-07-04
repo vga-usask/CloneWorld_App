@@ -34,10 +34,9 @@ export class FileMenuViewComponent implements OnInit {
 
   ngOnInit() { }
 
-  async cloneNewRepository(ev: any) {
+  async cloneNewRepository() {
     const popover = await this.popoverController.create({
       component: GitCloneViewComponent,
-      event: ev,
       translucent: true,
       id: 'git-clone-popover'
     });
