@@ -1,6 +1,6 @@
 # show help of arguments
 if [ $# -eq 0 ] || [ $1 == "-h" ] || [ $1 == "--help" ]
-then granularity
+then
   echo "Argument help: <SOURCE_DIRECTORY> <SOURCE_BRANCH_NAME> <NICAD_DIRECTORY> <NICAD_GRANULARITY> <NICAD_LANG> <OUTPUT_PATH>"
   exit 0
 fi
@@ -23,21 +23,21 @@ then
 fi
 
 # delete and re-create tempoorary folders
-if [ -d temp ]
+if [ -d "$OUTPUT_PATH/temp" ]
 then
-  rm -rf temp
+  rm -rf "$OUTPUT_PATH/temp"
 fi
-mkdir temp
-if [ -d temp/reports ]
+mkdir "$OUTPUT_PATH/temp"
+if [ -d "$OUTPUT_PATH/temp/reports" ]
 then
-  rm -rf temp/reports
+  rm -rf "$OUTPUT_PATH/temp/reports"
 fi
-mkdir temp/reports
-if [ -d temp/changes ]
+mkdir "$OUTPUT_PATH/temp/reports"
+if [ -d "$OUTPUT_PATH/temp/changes" ]
 then
-  rm -rf temp/changes
+  rm -rf "$OUTPUT_PATH/temp/changes"
 fi
-mkdir temp/changes
+mkdir "$OUTPUT_PATH/temp/changes"
 if [ -d "$NICAD_SYSTEMS_DIRECTORY" ]
 then
   rm -rf "$NICAD_SYSTEMS_DIRECTORY"
@@ -45,7 +45,7 @@ fi
 mkdir "$NICAD_SYSTEMS_DIRECTORY"
 
 # get the revision list
-(cd $SOURCE_DIRECTORY && git checkout $SOURCE_BRANCH_NAME > /dev/null 2>&1 && git log --oneline | cut -d ' ' -f 1) > temp/revisions
+(cd $SOURCE_DIRECTORY && git checkout $SOURCE_BRANCH_NAME > /dev/null 2>&1 && git log --oneline | cut -d ' ' -f 1) > "$OUTPUT_PATH/temp/revisions"
 
 
 format-git-diff() {
@@ -86,7 +86,7 @@ format-git-diff() {
 # 739 - 22 - 1d02cd4
 # 740 - 21 - 6c4fd0e
 
-INPUT_FILE_PATH="temp/revisions"
+INPUT_FILE_PATH="$OUTPUT_PATH/temp/revisions"
 REVISION_ID=$(wc -l < $INPUT_FILE_PATH)
 while IFS= read -r COMMIT_ID
 do
@@ -95,13 +95,13 @@ do
   (cd $SOURCE_DIRECTORY && git checkout $COMMIT_ID) > /dev/null 2>&1
   cp -r $SOURCE_DIRECTORY "$NICAD_SYSTEMS_DIRECTORY/source" 
   # (cd $NICAD_DIRECTORY && "./nicad5" $4NICAD_GRANULARITY $NICAD_LANG "systems/source" type1) > /dev/null 2>&1
-  # cp "$NICAD_SYSTEMS_DIRECTORY/source_functions-clones/source_functions-clones-0.00-classes.xml" "temp/reports/$REVISION_ID"
+  # cp "$NICAD_SYSTEMS_DIRECTORY/source_functions-clones/source_functions-clones-0.00-classes.xml" "$OUTPUT_PATH/temp/reports/$REVISION_ID"
   (cd $NICAD_DIRECTORY && "./nicad5" $NICAD_GRANULARITY $NICAD_LANG "systems/source" default) > /dev/null 2>&1
   if [ -f "$NICAD_SYSTEMS_DIRECTORY/source_functions-blind-clones/source_functions-blind-clones-0.30-classes.xml" ]
   then
-    cp "$NICAD_SYSTEMS_DIRECTORY/source_functions-blind-clones/source_functions-blind-clones-0.30-classes.xml" "temp/reports/$REVISION_ID"
+    cp "$NICAD_SYSTEMS_DIRECTORY/source_functions-blind-clones/source_functions-blind-clones-0.30-classes.xml" "$OUTPUT_PATH/temp/reports/$REVISION_ID"
   else
-    touch "temp/reports/$REVISION_ID"
+    touch "$OUTPUT_PATH/temp/reports/$REVISION_ID"
   fi
   
   rm -rf "$NICAD_SYSTEMS_DIRECTORY"
@@ -118,10 +118,10 @@ do
   if [[ $PREVIOUS_COMMIT_ID ]]
   then
     echo "Generating change log for revision $REVISION_ID ($COMMIT_ID $PREVIOUS_COMMIT_ID)..."
-    (cd $SOURCE_DIRECTORY && git diff $COMMIT_ID $PREVIOUS_COMMIT_ID) | format-git-diff > "temp/changes/$REVISION_ID"
+    (cd $SOURCE_DIRECTORY && git diff $COMMIT_ID $PREVIOUS_COMMIT_ID) | format-git-diff > "$OUTPUT_PATH/temp/changes/$REVISION_ID"
   fi
   REVISION_ID=`expr $REVISION_ID - 1`
   PREVIOUS_COMMIT_ID=$COMMIT_ID
 done < $INPUT_FILE_PATH
 
-python3 ./mapping.py "systems/source" 0  `expr $REVISION_COUNT - 1` "temp/reports" "temp/changes" $OUTPUT_PATH
+python3 ./mapping.py "systems/source" 0  `expr $REVISION_COUNT - 1` "$OUTPUT_PATH/temp/reports" "$OUTPUT_PATH/temp/changes" $OUTPUT_PATH

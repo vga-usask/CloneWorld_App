@@ -1,0 +1,42 @@
+<ion-item>
+  <ion-label position="stacked">Source Directory</ion-label>
+  <ion-input [(ngModel)]="sourceRepositoryPath">
+    <ion-button fill="clear" (click)="obtainSourceRepositoryPath()">
+      <ion-icon name="folder-open"></ion-icon>
+    </ion-button>
+  </ion-input>
+</ion-item>
+<ion-item>
+  <ion-label position="stacked">Source Branch Name</ion-label>
+  <ion-input [(ngModel)]="sourceBranchName"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label position="stacked">NiCad Directory</ion-label>
+  <ion-input [(ngModel)]="nicadPath">
+    <ion-button fill="clear" (click)="obtainNiCadPath()">
+      <ion-icon name="folder-open"></ion-icon>
+    </ion-button>
+  </ion-input>
+</ion-item>
+<ion-item>
+  <ion-label position="stacked">NiCad Granularity</ion-label>
+  <ion-select [(ngModel)]="nicadGranularity" interface="popover">
+    <ion-select-option value="functions">Functions</ion-select-option>
+    <ion-select-option value="blocks">Blocks</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-item>
+  <ion-label position="stacked">NiCad Language</ion-label>
+  <ion-input [(ngModel)]="nicadLanguage"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label position="stacked">Output Directory</ion-label>
+  <ion-input [(ngModel)]="outputPath">
+    <ion-button fill="clear" (click)="obtainOutputPath()">
+      <ion-icon name="folder-open"></ion-icon>
+    </ion-button>
+  </ion-input>
+</ion-item>
+<ion-item>
+  <ion-button (click)="run()">Run</ion-button>
+</ion-item>

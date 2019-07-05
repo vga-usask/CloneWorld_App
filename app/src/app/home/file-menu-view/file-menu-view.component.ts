@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GitCloneViewComponent } from '../git-clone-view/git-clone-view.component';
 import { ElectronService } from 'ngx-electron';
+import { GenerateReportsViewComponent } from '../generate-reports-view/generate-reports-view.component';
 
 @Component({
   selector: 'app-file-menu-view',
@@ -49,6 +50,15 @@ export class FileMenuViewComponent implements OnInit {
       title: 'Select Git Repo Directory',
       properties: ['openDirectory']
     })[0].replace(/\\/g, '/');
+  }
+
+  async generateReports() {
+    const popover = await this.popoverController.create({
+      component: GenerateReportsViewComponent,
+      translucent: true,
+      id: 'generate-reports-popover'
+    });
+    popover.present();
   }
 
   async openReport() {
