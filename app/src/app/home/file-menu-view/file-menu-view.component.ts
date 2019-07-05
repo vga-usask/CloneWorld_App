@@ -36,6 +36,7 @@ export class FileMenuViewComponent implements OnInit {
   ngOnInit() { }
 
   async cloneNewRepository() {
+    await this.popoverController.dismiss(undefined, undefined, 'file-menu-popover');
     const popover = await this.popoverController.create({
       component: GitCloneViewComponent,
       translucent: true,
@@ -53,6 +54,7 @@ export class FileMenuViewComponent implements OnInit {
   }
 
   async generateReports() {
+    await this.popoverController.dismiss(undefined, undefined, 'file-menu-popover');
     const popover = await this.popoverController.create({
       component: GenerateReportsViewComponent,
       translucent: true,
