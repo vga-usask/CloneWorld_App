@@ -35,6 +35,17 @@ export class CloneQuickPickerViewComponent implements OnInit {
     }
   }
 
+  private _brushedData = [];
+  get brushedData() {
+    return this._brushedData;
+  }
+  @Input() set brushedData(value: any[]) {
+    this._brushedData = value || [];
+    if (this.cloneReport) {
+      this.initialize();
+    }
+  }
+
   constructor(private popoverController: PopoverController) { }
 
   ngOnInit() { }
@@ -62,7 +73,7 @@ export class CloneQuickPickerViewComponent implements OnInit {
       }
     }
 
-    const globalIdChangeFrequencyList = Array.from(globalIdChangeFrequencyMap).sort((a, b) => b[1] - a[1]);
+    const globalIdChangeFrequencyList = Array.from(globalIdChangeFrequencyMap).filter(d => this.brushedData.find(dt => +dt.id === d[0])).sort((a, b) => b[1] - a[1]);
     for (const item of globalIdChangeFrequencyList) {
       const globalId = item[0];
       const clone = this.cloneReport.globalIdDictionary[globalId][this.cloneReport.info.maxRevision];

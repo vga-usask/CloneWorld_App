@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import ParCoords from 'parcoord-es';
 import * as d3 from 'd3';
 import { CloneReport } from 'src/app/data-structures/clone-report';
@@ -33,6 +33,16 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       this.initialize();
     }
   }
+
+  private _brushedData: any[];
+  get brushedData() {
+    return this._brushedData;
+  }
+  @Input() set brushedData(value: any[]) {
+    this._brushedData = value;
+    this.brushedDataChange.emit(value);
+  }
+  @Output() brushedDataChange = new EventEmitter();
 
   constructor() { }
 
@@ -103,7 +113,8 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       .alpha(.3)
       .color('blue')
       .alphaOnBrushed(.35)
-      .brushedColor('red');
+      .brushedColor('red')
+      .on('brush', (d: any[]) => this.brushedData = d);
   }
 
   private generateDimensions(pc, minRevision: number, maxRevision: number, data, filter: (revisionId: number, chartData: any[]) => boolean) {

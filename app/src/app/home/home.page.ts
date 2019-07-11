@@ -21,6 +21,7 @@ export class HomePage {
 
   cloneListMaxCount = 100;
   isIgnoringUnchangedClones = true;
+  brushedData: any[];
 
   private _gitRepositoryPath: string;
   get gitRepositoryPath() {
