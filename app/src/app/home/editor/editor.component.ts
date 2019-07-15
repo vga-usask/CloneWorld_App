@@ -44,6 +44,15 @@ export class EditorComponent implements OnInit {
     this.container = container;
 
     this.editorInstance = this.monacoModule.editor.create(this.container);
+    this.editorInstance.addAction({
+      id: 'find-related-clones',
+      label: 'Find Related Clones',
+      keybindings: [
+        monacoModule.KeyMod.Alt | monacoModule.KeyMod.Shift | monacoModule.KeyCode.KEY_C
+      ],
+      contextMenuGroupId: 'navigation',
+      run: editor => alert('Not Implemented yet.\nfile path: ' + editor.getModel().uri.fsPath + '\nposition: ' + editor.getPosition())
+    });
     this.editorInstance.setModel(null);
 
     (editorFrame as any).window.onresize = () => this.editorInstance.layout();
