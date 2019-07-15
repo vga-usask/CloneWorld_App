@@ -30,6 +30,14 @@
 			return new Promise(resolve => require(['vs/editor/editor.main'], resolve)).then(() => monaco);
 		}
 
+		async function getMonacoAndContainer() {
+			require.config({ paths: { 'vs': './lib/vs' } });
+			const monaco = await requireMonacoAsync();
+			const container = document.getElementById('container');
+
+			return { monacoModule: monaco, container: container };
+		}
+
 		async function initializeEditor(value, language, highlightLines) {
 			require.config({ paths: { 'vs': './lib/vs' } });
 

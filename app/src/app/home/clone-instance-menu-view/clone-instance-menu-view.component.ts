@@ -15,6 +15,7 @@ export class CloneInstanceMenuViewComponent implements OnInit {
   @Input() language: string;
   @Input() startLine: number;
   @Input() endLine: number;
+  @Input() generateEditorhandler: (filePath: string, language: string, startLine: number, endLine: number) => void;
 
   private get fileFullPath() {
     return this.gitRepositoryPath + '/' + this.filePath;
@@ -28,13 +29,7 @@ export class CloneInstanceMenuViewComponent implements OnInit {
     await this.popoverController.dismiss(undefined, undefined, 'clone-instance-menu-popover');
 
     this.checkIfFileExistThenRun(this.fileFullPath, path => {
-      window.open(
-        './index.html#/editor' +
-        '?filePath=' + path +
-        '&language=' + this.language +
-        '&startLine=' + this.startLine +
-        '&endLine=' + this.endLine
-      );
+      this.generateEditorhandler(path, this.language, this.startLine, this.endLine);
     });
   }
 

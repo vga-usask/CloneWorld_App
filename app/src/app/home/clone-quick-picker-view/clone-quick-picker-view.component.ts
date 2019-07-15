@@ -46,6 +46,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
     }
   }
 
+  @Input() generateEditorhandler: (filePath: string, language: string, startLine: number, endLine: number) => void;
+
   constructor(private popoverController: PopoverController) { }
 
   ngOnInit() { }
@@ -95,7 +97,8 @@ export class CloneQuickPickerViewComponent implements OnInit {
         filePath: clone.file,
         language: 'java',
         startLine: clone.start_line,
-        endLine: clone.end_line
+        endLine: clone.end_line,
+        generateEditorhandler: this.generateEditorhandler
       }
     });
     popover.present();

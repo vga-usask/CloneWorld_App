@@ -1,0 +1,75 @@
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FsService } from 'ngx-fs';
+
+@Component({
+  selector: 'app-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss'],
+})
+export class EditorComponent implements OnInit {
+  monacoModule: typeof monaco;
+  container: HTMLElement;
+  editorInstance: monaco.editor.IStandaloneCodeEditor;
+
+  editorModels: monaco.editor.ITextModel[] = [];
+  editorModelViewStates: Map<monaco.editor.ITextModel, monaco.editor.ICodeEditorViewState> = new Map();
+
+  _currentEditorModel: monaco.editor.ITextModel;
+  get currentEditorModel() {
+    return this._currentEditorModel;
+  }
+  set currentEditorModel(value: monaco.editor.ITextModel) {
+    if (this.currentEditorModel) {
+      this.editorModelViewStates.set(this.currentEditorModel, this.editorInstance.saveViewState());
+    }
+    this._currentEditorModel = value;
+    this.editorInstance.setModel(value);
+    this.editorInstance.restoreViewState(this.editorModelViewStates.get(value));
+  }
+
+  constructor(private fsService: FsService) { }
+
+  ngOnInit() { }
+
+  async initializeMonaco() {
+    const editorFrame: {
+      initializeEditor(value: string, language: string, highlightLines: number[]): monaco.editor.IStandaloneCodeEditor;
+      getMonacoAndContainer(): {
+        monacoModule: typeof monaco;
+        container: HTMLElement;
+      };
+    } = window.frames['editor-frame'];
+    const { monacoModule, container } = await editorFrame.getMonacoAndContainer();
+    this.monacoModule = monacoModule;
+    this.container = container;
+
+    this.editorInstance = this.monacoModule.editor.create(this.container);
+    this.editorInstance.setModel(null);
+
+    (editorFrame as any).window.onresize = () => this.editorInstance.layout();
+  }
+
+  createNewEditorTab = (filePath: string, language: string, startLine: number, endLine: number) => {
+    if (this.monacoModule && this.container) {
+      // the fs service does not implement types
+      const fs = this.fsService.fs as any;
+
+      const value = fs.readFileSync(filePath, 'utf8');
+
+      const model = this.monacoModule.editor.createModel(value, language, this.monacoModule.Uri.file(filePath));
+
+      const highlights = [];
+      highlights.push({ range: new this.monacoModule.Range(startLine, 1, endLine, 1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' } })
+      model.deltaDecorations([], highlights);
+
+      this.editorInstance.setModel(model);
+      this.editorModels.push(model);
+      this.currentEditorModel = model;
+    }
+  }
+
+  obatinFileName(path: string) {
+    return path.replace(/^.*[\\\/]/, '');
+  }
+
+}

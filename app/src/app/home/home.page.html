@@ -42,7 +42,7 @@
       <ion-row class="vis-view">
         <ion-col>
           <ion-card>
-            editor
+            <app-editor></app-editor>
           </ion-card>
         </ion-col>
       </ion-row>
@@ -57,7 +57,7 @@
         <ion-col size="0" style="min-width: 50px">
           <ion-card>
             <app-clone-quick-picker-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath"
-              [cloneListMaxCount]="cloneListMaxCount" [brushedData]="brushedData"></app-clone-quick-picker-view>
+              [cloneListMaxCount]="cloneListMaxCount" [brushedData]="brushedData" [generateEditorhandler]="editorComponent.createNewEditorTab"></app-clone-quick-picker-view>
           </ion-card>
         </ion-col>
       </ion-row>

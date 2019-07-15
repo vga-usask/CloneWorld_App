@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GitCloneViewComponent } from './git-clone-view/git-clone-view.component';
 import { ElectronService } from 'ngx-electron';
 import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component';
 import { CloneReport } from '../data-structures/clone-report';
 import { FsService } from 'ngx-fs';
+import { EditorComponent } from './editor/editor.component';
 
 @Component({
   selector: 'app-home',
@@ -55,6 +56,8 @@ export class HomePage {
 
     this.isReportOpened = this.cloneReport && this.cloneReport.hasLoaded;
   }
+
+  @ViewChild(EditorComponent) editorComponent: EditorComponent;
 
   constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController) { }
 

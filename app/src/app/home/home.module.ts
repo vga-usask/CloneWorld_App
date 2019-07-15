@@ -13,6 +13,7 @@ import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component
 import { ControlViewComponent } from './control-view/control-view.component';
 import { GenerateReportsViewComponent } from './generate-reports-view/generate-reports-view.component';
 import { VisViewComponent } from './vis-view/vis-view.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,25 @@ import { VisViewComponent } from './vis-view/vis-view.component';
       }
     ])
   ],
-  declarations: [HomePage, GitCloneViewComponent, ParallelCoordinatesViewComponent, CloneQuickPickerViewComponent, CloneInstanceMenuViewComponent, FileMenuViewComponent, ControlViewComponent, GenerateReportsViewComponent, VisViewComponent],
-  entryComponents: [GitCloneViewComponent, CloneInstanceMenuViewComponent, FileMenuViewComponent, GenerateReportsViewComponent, VisViewComponent]
+  declarations: [
+    HomePage,
+    GitCloneViewComponent,
+    ParallelCoordinatesViewComponent,
+    CloneQuickPickerViewComponent,
+    CloneInstanceMenuViewComponent,
+    FileMenuViewComponent,
+    ControlViewComponent,
+    GenerateReportsViewComponent,
+    VisViewComponent,
+    EditorComponent
+  ],
+  entryComponents: [
+    GitCloneViewComponent,
+    CloneInstanceMenuViewComponent,
+    FileMenuViewComponent,
+    GenerateReportsViewComponent,
+    VisViewComponent,
+    EditorComponent
+  ]
 })
 export class HomePageModule { }
