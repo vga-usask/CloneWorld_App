@@ -4,14 +4,14 @@
       CloneWorld - {{gitRepositoryName}} (Report {{isReportOpened ? 'Opened' : 'Not Opened'}})
     </ion-title>
     <ion-buttons slot="start">
+      <ion-menu-button class="menu-button" title="Toggle Control Panel">
+        <ion-icon name="options"></ion-icon>
+      </ion-menu-button>
       <ion-button class="menu-button" (click)="openFileMenu($event)">
         <ion-icon name="folder-open"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-menu-button class="menu-button" title="Toggle Control Panel">
-        <ion-icon name="options"></ion-icon>
-      </ion-menu-button>
       <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">
         <ion-icon name="bug"></ion-icon>
       </ion-button>
@@ -31,7 +31,7 @@
 <ion-content>
   <ion-split-pane contentId="menu-content">
     <!--  our side menu  -->
-    <ion-menu side="end" contentId="menu-content">
+    <ion-menu side="start" contentId="menu-content">
       <app-vis-view style="height: 100%; width: 100%;"></app-vis-view>
       <app-control-view [gitRepositoryPath]="gitRepositoryPath" [(cloneListMaxCount)]="cloneListMaxCount"
         [(isIgnoringUnchangedClones)]="isIgnoringUnchangedClones"></app-control-view>
