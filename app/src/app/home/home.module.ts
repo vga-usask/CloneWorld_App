@@ -13,7 +13,7 @@ import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component
 import { ControlViewComponent } from './control-view/control-view.component';
 import { GenerateReportsViewComponent } from './generate-reports-view/generate-reports-view.component';
 import { VisViewComponent } from './vis-view/vis-view.component';
-import { EditorComponent } from './editor/editor.component';
+import { EditorViewComponent } from './editor-view/editor-view.component';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { EditorComponent } from './editor/editor.component';
     ControlViewComponent,
     GenerateReportsViewComponent,
     VisViewComponent,
-    EditorComponent
+    EditorViewComponent
   ],
   entryComponents: [
     GitCloneViewComponent,
@@ -45,7 +45,7 @@ import { EditorComponent } from './editor/editor.component';
     FileMenuViewComponent,
     GenerateReportsViewComponent,
     VisViewComponent,
-    EditorComponent
+    EditorViewComponent
   ]
 })
 export class HomePageModule { }

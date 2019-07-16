@@ -5,7 +5,7 @@ import { ElectronService } from 'ngx-electron';
 import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component';
 import { CloneReport } from '../data-structures/clone-report';
 import { FsService } from 'ngx-fs';
-import { EditorComponent } from './editor/editor.component';
+import { EditorViewComponent } from './editor-view/editor-view.component';
 
 @Component({
   selector: 'app-home',
@@ -57,7 +57,7 @@ export class HomePage {
     this.isReportOpened = this.cloneReport && this.cloneReport.hasLoaded;
   }
 
-  @ViewChild(EditorComponent) editorComponent: EditorComponent;
+  @ViewChild(EditorViewComponent) editorComponent: EditorViewComponent;
 
   constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController) { }
 

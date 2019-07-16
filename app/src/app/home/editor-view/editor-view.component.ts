@@ -2,11 +2,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FsService } from 'ngx-fs';
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
+  selector: 'app-editor-view',
+  templateUrl: './editor-view.component.html',
+  styleUrls: ['./editor-view.component.scss'],
 })
-export class EditorComponent implements OnInit {
+export class EditorViewComponent implements OnInit {
   monacoModule: typeof monaco;
   container: HTMLElement;
   editorInstance: monaco.editor.IStandaloneCodeEditor;
