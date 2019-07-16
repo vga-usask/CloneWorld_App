@@ -90,4 +90,11 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  closeModel(model: monaco.editor.ITextModel) {
+    this.editorModels.splice(this.editorModels.findIndex(m => m === model), 1);
+    if (this.currentEditorModel === model) {
+      this.currentEditorModel = this.editorModels[0];
+    }
+  }
+
 }
