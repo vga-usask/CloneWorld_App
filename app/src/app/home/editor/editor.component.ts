@@ -65,14 +65,21 @@ export class EditorComponent implements OnInit {
 
       const value = fs.readFileSync(filePath, 'utf8');
 
-      const model = this.monacoModule.editor.createModel(value, language, this.monacoModule.Uri.file(filePath));
+      let model = this.monacoModule.editor.getModels().find(m => m.uri.toString() === this.monacoModule.Uri.file(filePath).toString());
+      if (model) {
+        model.setValue(value);
+      } else {
+        model = this.monacoModule.editor.createModel(value, language, this.monacoModule.Uri.file(filePath));
+      }
 
       const highlights = [];
       highlights.push({ range: new this.monacoModule.Range(startLine, 1, endLine, 1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' } })
       model.deltaDecorations([], highlights);
 
       this.editorInstance.setModel(model);
-      this.editorModels.push(model);
+      if (!this.editorModels.find(m => m === model)) {
+        this.editorModels.push(model);
+      }
       this.currentEditorModel = model;
     }
   }
