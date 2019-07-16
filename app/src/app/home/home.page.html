@@ -10,6 +10,9 @@
       <ion-button class="menu-button" (click)="openFileMenu($event)">
         <ion-icon name="folder-open"></ion-icon>
       </ion-button>
+      <ion-button class="menu-button" (click)="editorComponent.saveFile()">
+        <ion-icon name="save"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button class="menu-button" title="Open Dev Tools" (click)="openDebugger()">

@@ -81,4 +81,13 @@ export class EditorComponent implements OnInit {
     return path.replace(/^.*[\\\/]/, '');
   }
 
+  saveFile() {
+    if (this.currentEditorModel) {
+      let content = this.currentEditorModel.getValue();
+      // the fs service does not implement types
+      let fs = this.fsService.fs as any;
+      fs.writeFileSync(this.currentEditorModel.uri.fsPath, content);
+    }
+  }
+
 }
