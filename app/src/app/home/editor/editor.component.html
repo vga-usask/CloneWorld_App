@@ -1,6 +1,6 @@
 <ion-segment scrollable [(ngModel)]="currentEditorModel">
-  <ion-segment-button *ngFor="let model of editorModels" [value]="model">
-    <p [title]="model.uri.fsPath">{{obatinFileName(model.uri.fsPath)}}</p>
+  <ion-segment-button *ngFor="let model of editorModels" [title]="model.uri.fsPath" [value]="model">
+    <p>{{obatinFileName(model.uri.fsPath)}}</p>
   </ion-segment-button>
 </ion-segment>
 
