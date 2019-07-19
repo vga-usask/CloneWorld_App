@@ -82,6 +82,7 @@ export class EditorViewComponent implements OnInit {
       model.deltaDecorations([], highlights);
 
       this.editorInstance.setModel(model);
+      this.editorInstance.revealLineInCenter(startLine);
       if (!this.editorModels.find(m => m === model)) {
         this.editorModels.push(model);
       }
