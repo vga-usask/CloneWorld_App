@@ -14,6 +14,8 @@ import { CloneReport } from 'src/app/data-structures/clone-report';
 })
 export class ParallelCoordinatesViewComponent implements OnInit {
 
+  @Input() gitRepositoryPath: string;
+
   private _cloneReport: CloneReport;
   get cloneReport() {
     return this._cloneReport;
@@ -48,13 +50,27 @@ export class ParallelCoordinatesViewComponent implements OnInit {
 
   ngOnInit() { }
 
-  private initialize() {
+  updateChartByFindingRelatedClones = (filePath: string, lineNumber: number) => {
+    // alert(filePath.substring(this.gitRepositoryPath.length + 1).replace(/\\/g, '/') + ':' + lineNumber);
+    this.initialize(filePath.substring(this.gitRepositoryPath.length + 1).replace(/\\/g, '/'), lineNumber);
+  }
+
+  resetData = () => this.initialize();
+
+  private initialize(filePath?: string, lineNumber?: number) {
     let chartData = this.generateChartData();
+    if (filePath && lineNumber) {
+      var queriedClone = Object.values(this.cloneReport.cloneDictionary[this.cloneReport.info.maxRevision][filePath]).find(d => d.start_line <= lineNumber && d.end_line >= lineNumber);
+      chartData = chartData.filter(d => {
+        const clone = this.cloneReport.globalIdDictionary[d.id][this.cloneReport.info.maxRevision];
+        return queriedClone && clone && clone.class_id === queriedClone.class_id;
+      });
+    }
     chartData = chartData.filter(d => {
-      let result = d[this.cloneReport.info.maxRevision - 1] >= 0;
+      let result = d[this.cloneReport.info.maxRevision] >= 0;
       if (this.isIgnoringUnchangedClones) {
         let hasChangeCount = false;
-        for (let i = 0; i < this.cloneReport.info.maxRevision - 1; i++) {
+        for (let i = 0; i <= this.cloneReport.info.maxRevision; i++) {
           if (d[i] > 0) {
             hasChangeCount = true;
             break;
@@ -90,7 +106,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
       const revisionsNode = this.cloneReport.globalIdDictionary[globalId];
       const temp = {} as any;
 
-      for (let i = this.cloneReport.info.minRevision; i < this.cloneReport.info.maxRevision; i++) {
+      for (let i = this.cloneReport.info.minRevision; i <= this.cloneReport.info.maxRevision; i++) {
         temp[i] = revisionsNode[i] ? revisionsNode[i].change_count : Number.NEGATIVE_INFINITY;
       }
       temp.id = globalId.toString();
@@ -123,7 +139,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     const max = d3.max(Object.values(this.cloneReport.globalIdDictionary), d => d3.max(Object.values(d), dd => (dd as any).change_count));
     const scale = d3.scaleSqrt().domain([0, max]).range([range, 1]);
 
-    for (let i = minRevision; i < maxRevision; i++) {
+    for (let i = minRevision; i <= maxRevision; i++) {
       if (filter(i, data)) {
         dimensions[i] = {
           type: 'number',

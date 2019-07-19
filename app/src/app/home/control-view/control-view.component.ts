@@ -31,6 +31,8 @@ export class ControlViewComponent implements OnInit {
   }
   @Output() isIgnoringUnchangedClonesChange = new EventEmitter();
 
+  @Input() resetParallelCoordinatesData: () => void;
+
 
   constructor(private childProcessService: ChildProcessService, private alertController: AlertController) { }
 

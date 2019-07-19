@@ -6,6 +6,7 @@ import { FileMenuViewComponent } from './file-menu-view/file-menu-view.component
 import { CloneReport } from '../data-structures/clone-report';
 import { FsService } from 'ngx-fs';
 import { EditorViewComponent } from './editor-view/editor-view.component';
+import { ParallelCoordinatesViewComponent } from './parallel-coordinates-view/parallel-coordinates-view.component';
 
 @Component({
   selector: 'app-home',
@@ -58,6 +59,7 @@ export class HomePage {
   }
 
   @ViewChild(EditorViewComponent) editorComponent: EditorViewComponent;
+  @ViewChild(ParallelCoordinatesViewComponent) parallelCoordinatesViewComponent: ParallelCoordinatesViewComponent;
 
   constructor(private electronService: ElectronService, private fsService: FsService, private popoverController: PopoverController) { }
 

@@ -27,6 +27,8 @@ export class EditorViewComponent implements OnInit {
     this.editorInstance.restoreViewState(this.editorModelViewStates.get(value));
   }
 
+  @Input() updateChartByFindingRelatedClones: (filePath: string, lineNumber: number) => void;
+
   constructor(private fsService: FsService) { }
 
   ngOnInit() { }
@@ -51,7 +53,10 @@ export class EditorViewComponent implements OnInit {
         monacoModule.KeyMod.Alt | monacoModule.KeyMod.Shift | monacoModule.KeyCode.KEY_C
       ],
       contextMenuGroupId: 'navigation',
-      run: editor => alert('Not Implemented yet.\nfile path: ' + editor.getModel().uri.fsPath + '\nposition: ' + editor.getPosition())
+      run: editor => {
+        this.updateChartByFindingRelatedClones(editor.getModel().uri.fsPath, editor.getPosition().lineNumber);
+        // alert('Not Implemented yet.\nfile path: ' + editor.getModel().uri.fsPath + '\nposition: ' + editor.getPosition())
+      }
     });
     this.editorInstance.setModel(null);
 

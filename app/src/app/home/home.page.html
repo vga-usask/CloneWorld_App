@@ -37,7 +37,7 @@
     <ion-menu side="start" contentId="menu-content">
       <app-vis-view style="height: 100%; width: 100%;"></app-vis-view>
       <app-control-view [gitRepositoryPath]="gitRepositoryPath" [(cloneListMaxCount)]="cloneListMaxCount"
-        [(isIgnoringUnchangedClones)]="isIgnoringUnchangedClones"></app-control-view>
+        [(isIgnoringUnchangedClones)]="isIgnoringUnchangedClones" [resetParallelCoordinatesData]="parallelCoordinatesViewComponent.resetData"></app-control-view>
     </ion-menu>
 
     <!-- the main content -->
@@ -45,14 +45,16 @@
       <ion-row class="vis-view">
         <ion-col>
           <ion-card>
-            <app-editor-view></app-editor-view>
+            <app-editor-view
+              [updateChartByFindingRelatedClones]="parallelCoordinatesViewComponent.updateChartByFindingRelatedClones">
+            </app-editor-view>
           </ion-card>
         </ion-col>
       </ion-row>
       <ion-row class="other-view">
         <ion-col>
           <ion-card>
-            <app-parallel-coordinates-view [cloneReport]="cloneReport"
+            <app-parallel-coordinates-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath"
               [isIgnoringUnchangedClones]="isIgnoringUnchangedClones" [(brushedData)]="brushedData">
             </app-parallel-coordinates-view>
           </ion-card>
@@ -60,7 +62,8 @@
         <ion-col size="0" style="min-width: 50px">
           <ion-card>
             <app-clone-quick-picker-view [cloneReport]="cloneReport" [gitRepositoryPath]="gitRepositoryPath"
-              [cloneListMaxCount]="cloneListMaxCount" [brushedData]="brushedData" [generateEditorhandler]="editorComponent.createNewEditorTab"></app-clone-quick-picker-view>
+              [cloneListMaxCount]="cloneListMaxCount" [brushedData]="brushedData"
+              [generateEditorhandler]="editorComponent.createNewEditorTab"></app-clone-quick-picker-view>
           </ion-card>
         </ion-col>
       </ion-row>
