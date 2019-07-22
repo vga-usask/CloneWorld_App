@@ -63,7 +63,7 @@ export class EditorViewComponent implements OnInit {
     (editorFrame as any).window.onresize = () => this.editorInstance.layout();
   }
 
-  createNewEditorTab = (filePath: string, language: string, startLine: number, endLine: number) => {
+  createNewEditorTab = (filePath: string, language: string, startLine?: number, endLine?: number) => {
     if (this.monacoModule && this.container) {
       // the fs service does not implement types
       const fs = this.fsService.fs as any;
@@ -78,11 +78,15 @@ export class EditorViewComponent implements OnInit {
       }
 
       const highlights = [];
-      highlights.push({ range: new this.monacoModule.Range(startLine, 1, endLine, 1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' } })
-      model.deltaDecorations([], highlights);
+      if (startLine && endLine) {
+        highlights.push({ range: new this.monacoModule.Range(startLine, 1, endLine, 1), options: { isWholeLine: true, linesDecorationsClassName: 'myLineDecoration' } })
+        model.deltaDecorations([], highlights);
+      }
 
       this.editorInstance.setModel(model);
-      this.editorInstance.revealLineInCenter(startLine);
+      if (highlights.length > 0) {
+        this.editorInstance.revealLineInCenter(startLine);
+      }
       if (!this.editorModels.find(m => m === model)) {
         this.editorModels.push(model);
       }

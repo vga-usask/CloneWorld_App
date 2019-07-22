@@ -1,4 +1,5 @@
 <ion-content>
+  <button (click)="pickAFile()">Any</button>
   <ion-list>
     <div *ngFor="let clone of frequentlyChangedCloneList">
         <ion-checkbox [title]="clone.file + ' ~ ' + clone.global_change_count" (contextmenu)="showCloneItemOptions($event, clone)"></ion-checkbox>

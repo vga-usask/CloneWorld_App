@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { PopoverController } from '@ionic/angular';
 import { CloneInstanceMenuViewComponent } from '../clone-instance-menu-view/clone-instance-menu-view.component';
 import { CloneReport, CloneInstance } from 'src/app/data-structures/clone-report';
+import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-clone-quick-picker-view',
@@ -46,9 +47,9 @@ export class CloneQuickPickerViewComponent implements OnInit {
     }
   }
 
-  @Input() generateEditorhandler: (filePath: string, language: string, startLine: number, endLine: number) => void;
+  @Input() generateEditorhandler: (filePath: string, language: string, startLine?: number, endLine?: number) => void;
 
-  constructor(private popoverController: PopoverController) { }
+  constructor(private electronService: ElectronService, private popoverController: PopoverController) { }
 
   ngOnInit() { }
 
@@ -95,13 +96,26 @@ export class CloneQuickPickerViewComponent implements OnInit {
       componentProps: {
         gitRepositoryPath: this.gitRepositoryPath,
         filePath: clone.file,
-        language: 'java',
+        language: null,
         startLine: clone.start_line,
         endLine: clone.end_line,
         generateEditorhandler: this.generateEditorhandler
       }
     });
     popover.present();
+  }
+
+  pickAFile() {
+    let path: any = this.electronService.remote.dialog.showOpenDialog({
+      title: 'Select File',
+      defaultPath: this.gitRepositoryPath,
+      properties: ['openFile']
+    });
+    path = path ? path[0].replace(/\\/g, '/') : path;
+
+    if (path) {
+      this.generateEditorhandler(path, null);
+    }
   }
 
 }
