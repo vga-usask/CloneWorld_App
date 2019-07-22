@@ -84,7 +84,7 @@ export class ParallelCoordinatesViewComponent implements OnInit {
     const removeUnchangedRevisionsFilter = (revisionId: number, chartData: any[]) => {
       for (const file of Object.values(this.cloneReport.cloneDictionary[revisionId])) {
         for (const clone of Object.values(file)) {
-          if (chartData.find(d => d.id == clone.global_id) && clone.change_count > 0) {
+          if (chartData.find(d => d.id == clone.global_id) && (clone.change_count > 0 || !this.cloneReport.globalIdDictionary[clone.global_id][revisionId - 1])) {
             return true;
           }
         }
